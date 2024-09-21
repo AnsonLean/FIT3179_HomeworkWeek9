@@ -1,0 +1,57 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Average Income by State in Malaysia (2022)",
+  "width": 800,
+  "height": 400,
+  "projection": {
+    "type": "mercator",
+    "scale": 2200,
+    "center": [109, 3],
+    "clipExtent": [[0, 0], [800, 400]]
+  },
+  "layer": [
+    {
+      "data": {
+        "graticule": true
+      },
+      "mark": {"type": "geoshape", "stroke": "darkgray"}
+    },
+    {
+      "data": {
+        "url": "myr_state.json",
+        "format": {"type": "topojson", "feature": "my"}
+      },
+      "transform": [
+        {
+          "lookup": "properties.name",
+          "from": {
+            "data": {
+              "url": "hies_state.csv"
+            },
+            "key": "state",
+            "fields": ["income_mean"]
+          }
+        },
+        {"calculate": "datum.income_mean", "as": "Income Mean (RM)"}
+      ],
+      "mark": {
+        "type": "geoshape",
+        "stroke": "black"
+      },
+      "encoding": {
+        "color": {
+          "field": "Income Mean (RM)",
+          "type": "quantitative",
+          "scale": {
+            "type": "threshold",
+            "domain": [4500, 6000, 7500, 9000, 10500, 12000, 13500]
+          }
+        },
+        "tooltip": [
+          {"field": "properties.name", "type": "nominal", "title": "State"},
+          {"field": "Income Mean (RM)", "type": "quantitative"}
+        ]
+      }
+    }
+  ]
+}
