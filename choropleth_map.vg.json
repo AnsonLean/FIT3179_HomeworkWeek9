@@ -46,9 +46,7 @@
         },
         {"calculate": "datum.income_mean", "as": "Income Mean (RM)"}
       ],
-      "mark": {
-        "type": "geoshape"
-      },
+      "mark": {"type": "geoshape"},
       "encoding": {
         "color": {
           "field": "Income Mean (RM)",
